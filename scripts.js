@@ -1,7 +1,7 @@
 // The Recipe Puppy API used in the course is broken
 // Please use this replacement API URL "https://recipes.beginnerjavascript.com/api"
 
-const baseUrl = 'https://recips.beginnerjavascript.com/api';
+const baseUrl = 'https://recipes.beginnerjavascript.com/api';
 
 const proxy = `https://api.codetabs.com/v1/proxy?quest=`;
 
