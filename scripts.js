@@ -3,64 +3,66 @@
 
 const baseUrl = 'https://recipes.beginnerjavascript.com/api';
 
-const proxy = `https://api.codetabs.com/v1/proxy?quest=`;
+const proxy = `https://corsproxy.io/?`;
 
 const form = document.querySelector('form.search');
 
 const div = document.querySelector('.recipes');
 
-//fetch the receipe with recipe api
+// fetch the receipe with recipe api
 async function fetchReceipe(query) {
-	const response = await fetch(`${proxy}${baseUrl}?q=${query}`);
-	const data = await response.json();
-	return data;
+  const response = await fetch(`${proxy}${baseUrl}?q=${query}`);
+  const data = await response.json();
+  return data;
 }
 
-//handle the submit event
+// handle the submit event
 async function handleSubmit(e) {
-	e.preventDefault();
-	loading();
-	fetchAndDisplay(form.query.value);
+  e.preventDefault();
+  loading();
+  fetchAndDisplay(form.query.value);
 }
 
 function loading() {
-	const html = `<h2>Loading...</h2>`;
-	div.innerHTML = html;
+  const html = `<h2>Loading...</h2>`;
+  div.innerHTML = html;
 }
 
 async function fetchAndDisplay(query) {
-	form.submit.disabled = true;
-	const result = await fetchReceipe(query);
-	form.submit.disabled = false;
-	displayResult(result.results);
+  form.submit.disabled = true;
+  const recipes = await fetchReceipe(query);
+  console.log(recipes);
+  form.submit.disabled = false;
+
+  displayResult(recipes.results);
 }
 
-function displayResult(result) {
-	console.log('this is result');
-	const myHtml = result.map(
-		result => `
+function displayResult(recipes) {
+  console.log('this is result');
+  console.log(recipes);
+  const myHtml = recipes.map(
+    recipe => `
   <div class="recipe">
-  <h2>${result.title}</h2>
-  <p>${result.ingredients}</p>
+  <h2>${recipe.title}</h2>
+  <p>${recipe.ingredients}</p>
   ${
-		result.thumbnail &&
-		`<img  src="${result.thumbnail}" alt="${result.title}"/>`
-	}
-    <a class="link" href="${result.href}" target="_blank">View More</a>
+    recipe.thumbnail &&
+    `<img  src="${recipe.thumbnail}" alt="${recipe.title}"/>`
+  }
+    <a class="link" href="${recipe.href}" target="_blank">View More</a>
   </div>
   `
-	);
-	console.log(result);
-	console.log(myHtml);
-	div.innerHTML = myHtml.join(' ');
+  );
+
+  div.innerHTML = myHtml.join(' ');
 }
 
 function handleError(err) {
-	console.log(err);
-	const html = `
+  console.log(err);
+  const html = `
   <h2>Error:404 connect to a server</h2>
   `;
-	div.innerHTML = html;
+  div.innerHTML = html;
 }
 
 form.addEventListener('submit', handleSubmit);
