@@ -4,3 +4,5 @@ For running this file using npm run these commands
 ``` npm init ``` 
 ``` npm install parcel-bundler ```
 ```npm start```
+# preview
+https://receipe-generator-1.vercel.app/
